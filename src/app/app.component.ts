@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SoundService } from './sound.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular-japanese';
+  constructor( public soundService: SoundService) {}
+
+  ngOnInit() {
+    console.log(`OnInit`);
+  }
+
+  toggle() {
+
+  }
 }
