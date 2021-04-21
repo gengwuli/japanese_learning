@@ -1,12 +1,12 @@
 <mat-grid-list cols="5" rowHeight="10:10">
-    <mat-grid-tile *ngFor='let sound of soundService.getBasicSounds()'><button mat-button (click)="soundService.play(sound[0])"><b>{{sound[1]}}{{sound[2]}}</b></button></mat-grid-tile>
+    <mat-grid-tile *ngFor='let yin of this.getBasicYin()'><button mat-button (click)="this.playYin(yin)"><b>{{yin[1]}}{{yin[2]}}</b></button></mat-grid-tile>
 </mat-grid-list>
 <br>
 <mat-grid-list cols="5" rowHeight="10:10">
-    <mat-grid-tile *ngFor='let sound of soundService.getZhuoSounds()'><button mat-button (click)="soundService.play(sound[0])"><b>{{sound[1]}}{{sound[2]}}</b></button></mat-grid-tile>
+    <mat-grid-tile *ngFor='let yin of this.getZhuoYin()'><button mat-button (click)="this.playYin(yin)"><b>{{yin[1]}}{{yin[2]}}</b></button></mat-grid-tile>
 </mat-grid-list>
 <br>
 
 <mat-grid-list cols="3" rowHeight="10:10">
-    <mat-grid-tile *ngFor='let sound of soundService.getAoSounds()'><button mat-button (click)="soundService.play(sound[0])"><b>{{sound[1]}}{{sound[2]}}</b></button></mat-grid-tile>
+    <mat-grid-tile *ngFor='let yin of this.getAoYin()'><button mat-button (click)="this.playYin(yin)"><b>{{yin[1]}}{{yin[2]}}</b></button></mat-grid-tile>
 </mat-grid-list>
