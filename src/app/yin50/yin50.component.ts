@@ -133,7 +133,7 @@ export class Yin50Component implements OnInit {
   }
 
   playYin(yin: any) {
-    this.soundService.play('pre_3', yin[3], yin[4]); 
+    this.soundService.play('pre', yin[3], yin[4]); 
   }
 
   getBasicYin() {

@@ -16,7 +16,7 @@ export class SoundService {
   loadSounds() {
     this.loadToBuffer("assets/lesson01.mp3");
     this.loadToBuffer("assets/voc1.mp3");
-    this.loadToBuffer("assets/pre_3.ogg");
+    this.loadToBuffer("assets/pre.mp3");
   }
 
   loadToBuffer(path: string) {

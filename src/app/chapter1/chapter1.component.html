@@ -1,33 +1,11 @@
+
 <mat-tab-group>
     <mat-tab label="课文">
-        <div (click)="play(44, 3)">
+        <div *ngFor= "let line of this.headers" (click)="play(line.start, line.duration)">
             <h2>
-                <ruby>李<rt>り</rt></ruby>さんは<ruby>中国人<rt>ちゅうごくじん</rt></ruby>です
+                <app-richline [tags] = 'line.tags' [line] = 'line.word'></app-richline>
             </h2>
         </div>
-
-        <div (click)="play(49, 4)">
-            <h2>
-                <ruby>森<rt>もり</rt></ruby>さんは<ruby>学生<rt>がくせい</rt></ruby>では　ありません
-            </h2>
-        </div>
-
-
-        <div (click)="play(55, 4)">
-            <h2>
-                <ruby>林<rt>はやし</rt></ruby>さんは<ruby>日本人<rt>にほんじん</rt></ruby>ですか
-            </h2>
-        </div>
-
-        <div (click)="play(61, 5)">
-            <h2>
-                <ruby>李<rt>り</rt></ruby>さんは
-                <ruby>J<rt>ジエー</rt></ruby><ruby>C<rt>ツー</rt></ruby>
-                <ruby>企<rt>き</rt></ruby><ruby>画<rt>かく</rt></ruby>
-                の　<ruby>社員<rt>しやいん</rt></ruby>です
-            </h2>
-        </div>
-
         <div>
             <div (click)="play(67, 5)">甲：わたしは　<ruby>李<rt>り</rt></ruby>です。<ruby>小野<rt>おの</rt></ruby>さいですか。</div>
             <div (click)="play(72, 3)">乙：はい，そうです。<ruby>小野<rt>おの</rt></ruby>です。</div>

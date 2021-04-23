@@ -20,6 +20,7 @@ import { MatInputModule } from '@angular/material/input';
 import { VocabularyComponent } from './vocabulary/vocabulary.component';
 import { Chapter2Component } from './chapter2/chapter2.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { RichlineComponent } from './richline/richline.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     SideNavComponent,
     Chapter1Component,
     VocabularyComponent,
-    Chapter2Component
+    Chapter2Component,
+    RichlineComponent
   ],
   imports: [
     BrowserModule,
