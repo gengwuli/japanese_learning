@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class TextService {
-  zhuyin = new Map<string, string>()
+  zhuyin = new Map<string, string>();
   constructor() {
     this.LoadFiles();
   }
@@ -15,10 +15,12 @@ export class TextService {
 
   LoadFiles() {
     let req = new XMLHttpRequest();
-    req.addEventListener("load", () => {
-      req.responseText.split('\n').forEach(e => { let [key, value] = e.split(','); this.zhuyin?.set(key, value) });
-    });
-    req.open("GET", "assets/zhuyin.txt");
-    req.send();
+    req.open("GET", "assets/zhuyin.txt", false);
+    req.send(null);
+    if (req.status === 200) {
+      req.responseText.split('\n').forEach(e => { let [key, value] = e.split(','); this.zhuyin.set(key, value); });
+    } else {
+      alert("file load failure")
+    }
   }
 }
