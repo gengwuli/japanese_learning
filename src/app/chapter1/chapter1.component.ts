@@ -10,7 +10,7 @@ export interface Word {
 
 export interface Line {
   word: string,
-  tags: Array<Array<string>>,
+  tags: Array<string>,
   start: number,
   duration: number
 }
@@ -75,16 +75,36 @@ const WORD_DATA: Word[] = [
   { content: '〜ちん　〜ちゃん　〜君（くん）', start: 104.5, duration: 4 },
 ];
 
-const headers: Line[] =  [
-  {word: "李さんは中国人です", tags: [["中国人", "ちゅうごくじん"], ["李", "り"]], start: 44, duration: 3}
-  ,{word: "森さんは学生では　ありません", tags: [["森", "もり"], ["学生", "がくせい"]], start: 49, duration: 4}
-,{word: "林さんは日本人ですか", tags: [["林", "はやし"], ["日本人", "にほんじん"]], start: 55, duration: 4}
-,{word: "李さんは JC企画 の　社員です", tags: [["李", "り"], ["JC企画", "ジエーツーきかく"], ["社員", "しやいん"]], start: 61, duration: 5}
-//   ["森さんは学生では　ありません", [["森", "もり"], ["学生", "がくせい"]], 49, 4],
-// ["林さんは日本人ですか", [["林", "はやし"], ["日本人", "にほんじん"]], 55, 4],
-// ["李さんは JC企画 の　社員です", [["李", "り"], ["JC企画", "ジエーツーきかく"], ["社員", "しやいん"]], 61, 5]
-
+const headers: Line[] = [
+  { word: "李さんは中国人です", tags: ["中国人", "李"], start: 44, duration: 3 }
+  , { word: "森さんは学生では　ありません", tags: ["森", "学生"], start: 49, duration: 4 }
+  , { word: "林さんは日本人ですか", tags: ["林", "日本人"], start: 55, duration: 4 }
+  , { word: "李さんは JC企画 の　社員です", tags: ["李", "JC企画", "社員"], start: 61, duration: 5 }
 ];
+
+const dialogs: Line[] = [
+  { word: "甲：わたしは　李です。小野さいですか。", tags: ["李", "小野"], start: 67, duration: 5 }
+  , { word: "乙：はい，そうです。小野です。", tags: ["小野"], start: 72, duration: 3 }
+  , { word: "甲：森さんは学生ですか。", tags: ["森", "学生"], start: 77, duration: 3 }
+  , { word: "乙：いいえ，学生では　ありません。会社員です。", tags: ["学生", "会社員"], start: 80, duration: 5 }
+  , { word: "甲：吉田さんですか。", tags: ["吉田"], start: 88, duration: 2 }
+  , { word: "乙：いいえ，ちがいます。森もりです。", tags: ["森"], start: 90, duration: 5 }
+  , { word: "甲：李さんは JC企画 の　社員ですか。", tags: ["李", "JC企画", "社員"], start: 97, duration: 4 }
+  , { word: "乙：はい，そうです。", tags: [], start: 101, duration: 2 }
+];
+
+const application: Line[] = [
+  { word: "李： JC企画 の 小野さんですか。", tags: ["李", "JC企画", "小野"], start: 133, duration: 3 },
+  { word: "小野：はい，小野です。 李秀麗 さんですか。", tags: ["小野", "李", "秀", "麗"], start: 136, duration: 4 },
+  { word: "李：はい， 李秀麗 です。はじめまして。 どうぞ　よろしくお願いします。", tags: ["李", "秀", "麗", "願"], start: 140, duration: 5.5 },
+  { word: "小野： はじめまして， 小野緑 です。", tags: ["小野", "緑"], start: 145.8, duration: 3 },
+  { word: "森： 李さん， こんにちは。", tags: ["森", "李"], start: 150, duration: 3 },
+  { word: "李： 吉田 さんですが。", tags: ["小野", "李", "吉田"], start: 153, duration: 1.7 },
+  { word: "森： いいえ，わたしは 吉田 じゃ　ありません。 森 です。", tags: ["森", "吉田"], start: 154.5, duration: 5 },
+  { word: "李： あつ， 森 さんですか。どうも　すみません。", tags: ["李", "森"], start: 159.5, duration: 4 },
+  { word: "森： いいえ，どうぞ　よろしく。", tags: ["森"], start: 163.5, duration: 3 },
+  { word: "李： 李秀麗 です。こさらこそ，よろしくお願いします。", tags: ["李", "秀", "麗", "願"], start: 166.5, duration: 5 },
+]
 
 /**
  * @title Data table with sorting, pagination, and filtering.
@@ -98,6 +118,8 @@ export class Chapter1Component implements OnInit {
 
   words = WORD_DATA
   headers = headers
+  dialogs = dialogs
+  application = application
   constructor(public soundService: SoundService) { }
 
 

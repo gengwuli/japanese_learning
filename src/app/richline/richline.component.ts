@@ -1,4 +1,5 @@
 import { Component, OnInit,Input } from '@angular/core';
+import { TextService } from '../text.service';
 
 @Component({
   selector: 'app-richline',
@@ -6,11 +7,12 @@ import { Component, OnInit,Input } from '@angular/core';
   styleUrls: ['./richline.component.css']
 })
 export class RichlineComponent implements OnInit {
-  @Input() tags?  = [["中国人", "ちゅうごくじん"],["李", "り"]];
+  @Input() tags?  = ["李"];
   @Input() line?:string = "李さんは中国人です";
-  b = "<div>high</div>"
+  zhuyinMap = new Map();
   segments?:Array<any>;
-  constructor() { 
+  constructor(textService:TextService) {
+    this.zhuyinMap = textService.GetZhuyin(); 
   }
 
   ngOnInit(): void {
@@ -25,7 +27,7 @@ export class RichlineComponent implements OnInit {
       return [line]
     }
     let res = []
-    let [key, value] = tags.pop();
+    let key = tags.pop();
     let sublines = line.split(key);
     console.log(sublines)
       if (sublines.length == 1) {
@@ -35,20 +37,20 @@ export class RichlineComponent implements OnInit {
       let has_end = sublines[sublines.length - 1].length == 0;
       if (has_beginning) {
         sublines = sublines.slice(1);
-        res.push([key, value]);
+        res.push([key, this.zhuyinMap.get(key)]);
       }
       if (has_end) {
         sublines.pop();
       }
       for (let sub_line of sublines) {
-        for (let ele of this.GetElements(sub_line, tags)) {
+        for (let ele of this.GetElements(sub_line, [...tags])) {
           res.push(ele);
         }
-        res.push([key, value]);
+        res.push([key, this.zhuyinMap.get(key)]);
       }
       res.pop()
       if (has_end) {
-        res.push([key, value])
+        res.push([key, this.zhuyinMap.get(key)]);
       }
     return res
   }
