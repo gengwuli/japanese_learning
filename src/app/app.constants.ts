@@ -1,0 +1,1 @@
+export const LESSONS = ["lesson01", "lesson02"];

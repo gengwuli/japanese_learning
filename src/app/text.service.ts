@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Line } from './line';
 import { Word } from './word';
+import { LESSONS } from './app.constants';
 
 
 const LINE_BREAK = '\n'
@@ -17,7 +18,7 @@ export class TextService {
   headers = new Map<string, Array<Line>>();
   jiayis = new Map<string, Array<Line>>();
   words = new Map<string, Array<Word>>();
-  lessons = ["lesson01"];
+  lessons = LESSONS;
   constructor(public httpClient: HttpClient) {
     this.httpClient.get('assets/zhuyin.txt', { responseType: 'text' }).subscribe((response) => {
       response.split(LINE_BREAK).map(e => e.split(ITEM_BREAK)).forEach((e, i) => this.zhuyin.set(e[0], e[1]));

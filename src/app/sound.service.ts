@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
+import { LESSONS } from './app.constants';
 
-export const global_variable = []
 @Injectable({
   providedIn: 'root'
 })
 export class SoundService {
   private context = new AudioContext;
   private buffers = new Map;
-  private lessons = ["lesson01"]
+  private lessons = LESSONS;
   constructor() {
     this.context = new AudioContext();
     this.loadSounds();
