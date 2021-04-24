@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Line } from './line';
 import { Word } from './word';
 import { LESSONS } from './app.constants';
-
+import { observable, computed } from 'mobx-angular';
 
 const LINE_BREAK = '\n'
 const ITEM_BREAK = '|'
@@ -13,11 +13,11 @@ const SUB_ITEM_BREAK = ','
   providedIn: 'root'
 })
 export class TextService {
-  zhuyin = new Map<string, string>();
-  dialogs = new Map<string, Array<Line>>();
-  headers = new Map<string, Array<Line>>();
-  jiayis = new Map<string, Array<Line>>();
-  words = new Map<string, Array<Word>>();
+  @observable zhuyin = new Map<string, string>();
+  @observable dialogs = new Map<string, Array<Line>>();
+  @observable headers = new Map<string, Array<Line>>();
+  @observable jiayis = new Map<string, Array<Line>>();
+  @observable words = new Map<string, Array<Word>>();
   lessons = LESSONS;
   constructor(public httpClient: HttpClient) {
     this.httpClient.get('assets/zhuyin.txt', { responseType: 'text' }).subscribe((response) => {
@@ -99,25 +99,25 @@ export class TextService {
     });
   }
 
-  GetZhuyin() {
+  @computed  GetZhuyin() {
     return this.zhuyin;
   }
 
-  GetDiaglogs(lesson:string) {
+  @computed GetDiaglogs(lesson:string) {
     return this.dialogs.get(lesson);
   }
 
-  GetHeaders(lesson:string)  {
+  @computed GetHeaders(lesson:string)  {
     return this.headers.get(lesson);
 
   }
 
-  GetJiayis(lesson:string) {
+  @computed GetJiayis(lesson:string) {
     return this.jiayis.get(lesson);
 
   }
 
-  GetWords(lesson:string)  {
+  @computed GetWords(lesson:string)  {
    return this.words.get(lesson);
   }
 }

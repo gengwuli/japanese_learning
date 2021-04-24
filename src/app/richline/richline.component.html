@@ -1,4 +1,4 @@
-    <div>
+<div *mobxAutorun>
     <span *ngFor="let x of segments">
         <span *ngIf="x.replace">{{x}}</span>
         <span *ngIf="!x.replace"><ruby>{{x[0]}}<rt>{{x[1]}}</rt></ruby></span>

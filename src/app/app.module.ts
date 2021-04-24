@@ -21,6 +21,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { RichlineComponent } from './richline/richline.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LessonComponent } from './lesson/lesson.component';
+import { MobxAngularModule } from 'mobx-angular';
+
 
 @NgModule({
   declarations: [
@@ -47,6 +49,7 @@ import { LessonComponent } from './lesson/lesson.component';
     MatTabsModule,
     MatInputModule,
     HttpClientModule,
+    MobxAngularModule
   ],
   providers: [],
   bootstrap: [AppComponent]

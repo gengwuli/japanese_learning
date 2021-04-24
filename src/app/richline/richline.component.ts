@@ -1,7 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { TextService } from '../text.service';
+import { observable, computed } from 'mobx-angular';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-richline',
   templateUrl: './richline.component.html',
   styleUrls: ['./richline.component.css']
@@ -9,21 +11,15 @@ import { TextService } from '../text.service';
 export class RichlineComponent implements OnInit {
   @Input() tags?= ["李"];
   @Input() line?: string = "李さんは中国人です";
-  zhuyinMap = new Map();
-  segments?: Array<any>;
-  textService: any;
-  constructor(textService: TextService) {
-    this.textService = textService
+  @observable segments?: Array<any>;
+  constructor(public textService: TextService) {
   }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.zhuyinMap = this.textService.GetZhuyin();
-      this.segments = this.GetElements(this.line, this.tags); 
-    }, 1000)
+    this.segments = this.GetElements(this.line, this.tags); 
   }
 
-  GetElements(line?: string, tags?: Array<any>): any {
+  @computed GetElements(line?: string, tags?: Array<any>): any {
     if (!line) {
       return []
     }
@@ -32,7 +28,7 @@ export class RichlineComponent implements OnInit {
     }
     let res = []
     let key = tags.pop();
-    let translation = [key, this.zhuyinMap.get(key)];
+    let translation = [key, this.textService.GetZhuyin().get(key)];
     let sublines = line.split(key);
     if (sublines.length == 1) {
       return line;
@@ -58,6 +54,4 @@ export class RichlineComponent implements OnInit {
     }
     return res
   }
-
-
 }
