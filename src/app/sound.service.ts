@@ -7,15 +7,17 @@ export const global_variable = []
 export class SoundService {
   private context = new AudioContext;
   private buffers = new Map;
-
+  private lessons = ["lesson01"]
   constructor() {
     this.context = new AudioContext();
     this.loadSounds();
   }
 
   loadSounds() {
-    this.loadToBuffer("assets/lesson01.mp3");
-    this.loadToBuffer("assets/voc1.mp3");
+    for (let lesson of this.lessons) {
+      this.loadToBuffer("assets/"+lesson+".mp3");
+      this.loadToBuffer("assets/"+lesson+"_voc.mp3");
+    }
     this.loadToBuffer("assets/pre.mp3");
   }
 
@@ -54,5 +56,13 @@ export class SoundService {
     } else {
       source.start(0)
     }
+  }
+
+  playWord(lesson: string, when?:number, duration?:number) {
+    this.play(lesson+"_voc", when, duration);
+  }
+
+  playLine(lesson: string, when?:number, duration?:number) {
+    this.play(lesson, when, duration);
   }
 }

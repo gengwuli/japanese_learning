@@ -1,19 +1,19 @@
 
 <mat-tab-group>
     <mat-tab label="课文">
-        <div *ngFor= "let line of this.headers" (click)="play(line.start, line.duration)">
+        <div *ngFor= "let line of this.headers" (click)="playLine(line.start, line.duration)">
             <h2>
                 <app-richline [tags] = 'line.tags' [line] = 'line.word'></app-richline>
             </h2>
         </div>
         <br>
 
-        <div *ngFor= "let line of this.dialogs" (click)="play(line.start, line.duration)">
+        <div *ngFor= "let line of this.jiayis" (click)="playLine(line.start, line.duration)">
             <app-richline [tags] = 'line.tags' [line] = 'line.word'></app-richline>
         </div>
 
         <br>
-        <div *ngFor= "let line of this.application" (click)="play(line.start, line.duration)">
+        <div *ngFor= "let line of this.dialogs" (click)="playLine(line.start, line.duration)">
             <app-richline [tags] = 'line.tags' [line] = 'line.word'></app-richline>
         </div>
         <br>

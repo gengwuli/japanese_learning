@@ -13,13 +13,14 @@ export class RichlineComponent implements OnInit {
   segments?: Array<any>;
   textService: any;
   constructor(textService: TextService) {
-this.textService = textService
-    
+    this.textService = textService
   }
 
   ngOnInit(): void {
-    this.zhuyinMap = this.textService.GetZhuyin();
-    this.segments = this.GetElements(this.line, this.tags)
+    setTimeout(() => {
+      this.zhuyinMap = this.textService.GetZhuyin();
+      this.segments = this.GetElements(this.line, this.tags); 
+    }, 1000)
   }
 
   GetElements(line?: string, tags?: Array<any>): any {

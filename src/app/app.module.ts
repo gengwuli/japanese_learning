@@ -12,25 +12,24 @@ import { Yin50Component } from './yin50/yin50.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { SideNavComponent } from './side-nav/side-nav.component';
-import { Chapter1Component } from './chapter1/chapter1.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { VocabularyComponent } from './vocabulary/vocabulary.component';
-import { Chapter2Component } from './chapter2/chapter2.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RichlineComponent } from './richline/richline.component';
+import { HttpClientModule } from '@angular/common/http';
+import { LessonComponent } from './lesson/lesson.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     Yin50Component,
     SideNavComponent,
-    Chapter1Component,
     VocabularyComponent,
-    Chapter2Component,
-    RichlineComponent
+    RichlineComponent,
+    LessonComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +45,8 @@ import { RichlineComponent } from './richline/richline.component';
     MatFormFieldModule,
     MatPaginatorModule, 
     MatTabsModule,
-    MatInputModule
+    MatInputModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

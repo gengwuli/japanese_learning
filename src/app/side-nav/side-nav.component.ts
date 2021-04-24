@@ -10,7 +10,7 @@ import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
 export class SideNavComponent {
   mobileQuery: MediaQueryList;
 
-  fillerNav = ['yin50', 'chapter1','chapter2','vocabulary'];
+  fillerNav = ['yin50', 'lesson01','lesson02','vocabulary'];
 
   private _mobileQueryListener: () => void;
 
@@ -24,5 +24,12 @@ export class SideNavComponent {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
-  shouldRun = true
+  getRouterLink(nav:string) {
+    if (nav.startsWith("lesson")) {
+      return "/lesson/" + nav.split("lesson")[1]
+    } else {
+      return nav;
+    }
+    
+  }
 }
