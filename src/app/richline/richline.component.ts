@@ -19,7 +19,7 @@ export class RichlineComponent implements OnInit {
     this.segments = this.GetElements(this.line, this.tags); 
   }
 
-  @computed GetElements(line?: string, tags?: Array<any>): any {
+  @computed GetElements(line?: string, tags?: Array<string>): any {
     if (!line) {
       return []
     }
@@ -27,9 +27,20 @@ export class RichlineComponent implements OnInit {
       return [line]
     }
     let res = []
-    let key = tags.pop();
-    let translation = [key, this.textService.GetZhuyin().get(key)];
-    let sublines = line.split(key);
+    // 日本語,本, only the shorter one is annotated.
+    // So sort by length and pop the longer one out first.
+    tags.sort((a,b)=>a.length - b.length);
+    let key = tags.pop(); 
+    let translation = [key, this.textService.GetZhuyin().get(key!)];
+    // Same character might have different annotation like 母(はは)母(かあ)
+    // So allow special designation using ()
+    let index = key?.indexOf('(');
+    if (index != -1) {
+      let yin = key?.substr(index! + 1, key.length - index! - 2);
+      key = key?.substr(0, index);
+      translation = [key, yin]
+    }
+    let sublines = line.split(key!);
     if (sublines.length == 1) {
       return line;
     }

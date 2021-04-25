@@ -13,7 +13,7 @@ const SUB_ITEM_BREAK = ','
   providedIn: 'root'
 })
 export class TextService {
-  @observable zhuyin = new Map<string, string>();
+  @observable zhuyin:Map<string, string> = new Map<string, string>();
   @observable dialogs = new Map<string, Array<Line>>();
   @observable headers = new Map<string, Array<Line>>();
   @observable jiayis = new Map<string, Array<Line>>();
@@ -43,9 +43,9 @@ export class TextService {
       response.split(LINE_BREAK).map(e => e.split(ITEM_BREAK)).forEach((e, i) => {
         let line: Line = {
           word: e[0],
-          start: parseFloat(e[2]),
-          duration: parseFloat(e[3]),
-          tags: e[1].split(SUB_ITEM_BREAK)
+          start: e[2] ? parseFloat(e[2]) : -1,
+          duration: e[3] ? parseFloat(e[3]) : -1,
+          tags:　e[1] && e[1].length > 0 ?  e[1].split(SUB_ITEM_BREAK) : []
         };
         this.dialogs.get(lesson)?.push(line)
       });
@@ -59,9 +59,9 @@ export class TextService {
       response.split(LINE_BREAK).map(e => e.split(ITEM_BREAK)).forEach((e, i) => {
         let line: Line = {
           word: e[0],
-          start: parseFloat(e[2]),
-          duration: parseFloat(e[3]),
-          tags: e[1].split(SUB_ITEM_BREAK)
+          start: e[2] ? parseFloat(e[2]) : -1,
+          duration: e[3] ? parseFloat(e[3]) : -1,
+          tags:　e[1] && e[1].length > 0 ?  e[1].split(SUB_ITEM_BREAK) : []
         };
         this.headers.get(lesson)?.push(line)
       });
@@ -75,9 +75,9 @@ export class TextService {
       response.split(LINE_BREAK).map(e => e.split(ITEM_BREAK)).forEach((e, i) => {
         let line: Line = {
           word: e[0],
-          start: parseFloat(e[2]),
-          duration: parseFloat(e[3]),
-          tags: e[1].split(SUB_ITEM_BREAK)
+          start: e[2] ? parseFloat(e[2]) : -1,
+          duration: e[3] ? parseFloat(e[3]) : -1,
+          tags:　e[1] && e[1].length > 0 ?  e[1].split(SUB_ITEM_BREAK) : []
         };
         this.jiayis.get(lesson)?.push(line)
       });
@@ -91,8 +91,8 @@ export class TextService {
       response.split(LINE_BREAK).map(e => e.split(ITEM_BREAK)).forEach((e, i) => {
         let word: Word = {
           content: e[0],
-          start: parseFloat(e[1]),
-          duration: parseFloat(e[2]),
+          start: e[1] ? parseFloat(e[1]) : -1,
+          duration: e[2] ? parseFloat(e[2]) : -1,
         };
         this.words.get(lesson)?.push(word)
       });

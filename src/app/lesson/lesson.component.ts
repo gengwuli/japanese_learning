@@ -20,10 +20,16 @@ export class LessonComponent implements OnInit {
   }
 
   playLine(when: number, duration: number) {
+    if (when <= 0 || duration <= 0) {
+      return;
+    }
     this.soundService.playLine(this.lesson, when, duration)
   }
 
   playWord(when: number, duration: number) {
+    if (when <= 0 || duration <= 0) {
+      return;
+    }
     this.soundService.playWord(this.lesson, when, duration)
   }
 
