@@ -19,10 +19,10 @@ import { MatInputModule } from '@angular/material/input';
 import { VocabularyComponent } from './vocabulary/vocabulary.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RichlineComponent } from './richline/richline.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { LessonComponent } from './lesson/lesson.component';
 import { MobxAngularModule } from 'mobx-angular';
-
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
   declarations: [
@@ -49,7 +49,8 @@ import { MobxAngularModule } from 'mobx-angular';
     MatTabsModule,
     MatInputModule,
     HttpClientModule,
-    MobxAngularModule
+    MobxAngularModule,
+    MarkdownModule.forRoot({ loader: HttpClient }),
   ],
   providers: [],
   bootstrap: [AppComponent]

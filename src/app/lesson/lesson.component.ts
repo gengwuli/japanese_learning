@@ -13,6 +13,7 @@ import {filter} from 'rxjs/operators';
 })
 export class LessonComponent implements OnInit {
   lesson = '';
+  notes_path = '';
 
   constructor(private router: Router, public soundService: SoundService, public textService: TextService) {
     makeAutoObservable(this)
@@ -24,6 +25,7 @@ export class LessonComponent implements OnInit {
   
   private routeListener(event:any) {
     this.lesson = "lesson" + event.urlAfterRedirects.split('/').pop();
+    this.notes_path = "assets/" + this.lesson + "_notes.md";
   }
 
   ngOnInit(): void {

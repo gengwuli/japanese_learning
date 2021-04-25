@@ -12,4 +12,8 @@
             </mat-list-item>
         </mat-list>
     </mat-tab>
+    <mat-tab label="笔记">
+        <!-- https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md -->
+        <markdown [src]="notes_path" emoji katex></markdown>
+    </mat-tab>
 </mat-tab-group>
