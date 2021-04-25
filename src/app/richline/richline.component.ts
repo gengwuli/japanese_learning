@@ -16,7 +16,12 @@ export class RichlineComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.segments = this.GetElements(this.line, this.tags); 
+        // 日本語,本, only the shorter one is annotated.
+    // So sort by length and pop the longer one out first.
+    this.tags!.sort((a,b)=>a.length - b.length);
+    // Have to make a copy of this.tags, otherwise it will be modified
+    // inside GetElements after calling tags.pop().
+    this.segments = this.GetElements(this.line, [...this.tags!]); 
   }
 
   @computed GetElements(line?: string, tags?: Array<string>): any {
@@ -27,10 +32,16 @@ export class RichlineComponent implements OnInit {
       return [line]
     }
     let res = []
-    // 日本語,本, only the shorter one is annotated.
-    // So sort by length and pop the longer one out first.
-    tags.sort((a,b)=>a.length - b.length);
+    // Have to iterate through every tag until we found the first one that's
+    // in the line. e.g "李さんは " ["李", "社員"], here, we have to ignore
+    // "社員" and continue with "李"
     let key = tags.pop(); 
+    // We know if the key doesn't exists in the line, there's no need to 
+    // split further. Only split if the key is in the line. Or we can 
+    // filter beforehand.
+    while (tags.length > 0 && line.indexOf(key!) == -1) {
+      key = tags.pop();
+    }
     let translation = [key, this.textService.GetZhuyin().get(key!)];
     // Same character might have different annotation like 母(はは)母(かあ)
     // So allow special designation using ()
@@ -54,6 +65,8 @@ export class RichlineComponent implements OnInit {
       sublines.pop();
     }
     for (let sub_line of sublines) {
+      // Have to make a copy, as we can only guarantee there's no 
+      // key in sublines after we split by key. 
       for (let ele of this.GetElements(sub_line, [...tags])) {
         res.push(ele);
       }

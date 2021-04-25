@@ -14,74 +14,26 @@ const SUB_ITEM_BREAK = ','
 })
 export class TextService {
   @observable zhuyin:Map<string, string> = new Map<string, string>();
-  @observable dialogs = new Map<string, Array<Line>>();
-  @observable headers = new Map<string, Array<Line>>();
-  @observable jiayis = new Map<string, Array<Line>>();
   @observable words = new Map<string, Array<Word>>();
-  lessons = LESSONS;
+  @observable lessons = new Map<string, Array<Line>>();
+
   constructor(public httpClient: HttpClient) {
+    this.LoadZhuyin();
+    this.LoadLessons();
+  }
+
+  LoadLessons() {
+    for (const lesson of LESSONS) {
+      this.LoadWords(lesson);
+      this.LoadLesson(lesson);
+    }
+  }
+
+  LoadZhuyin() {
     this.httpClient.get('assets/zhuyin.txt', { responseType: 'text' }).subscribe((response) => {
       response.split(LINE_BREAK).map(e => e.split(ITEM_BREAK)).forEach((e, i) => this.zhuyin.set(e[0], e[1]));
       return this.zhuyin;
     })
-    this.LoadLessons()
-  }
-
-  LoadLessons() {
-    for (const lesson of this.lessons) {
-      this.LoadDiaglogs(lesson);
-      this.LoadHeaders(lesson);
-      this.LoadJiayis(lesson);
-      this.LoadWords(lesson);
-    }
-  }
-
-  LoadDiaglogs(lesson:string) {
-    let path = 'assets/' + lesson + "_dialog.txt";
-    this.httpClient.get(path, { responseType: 'text' }).subscribe((response) => {
-      this.dialogs.set(lesson, []);
-      response.split(LINE_BREAK).map(e => e.split(ITEM_BREAK)).forEach((e, i) => {
-        let line: Line = {
-          word: e[0],
-          start: e[2] ? parseFloat(e[2]) : -1,
-          duration: e[3] ? parseFloat(e[3]) : -1,
-          tags:　e[1] && e[1].length > 0 ?  e[1].split(SUB_ITEM_BREAK) : []
-        };
-        this.dialogs.get(lesson)?.push(line)
-      });
-    });
-  }
-
-  LoadHeaders(lesson:string) {
-    let path = 'assets/' + lesson + "_header.txt";
-    this.httpClient.get(path, { responseType: 'text' }).subscribe((response) => {
-      this.headers.set(lesson, []);
-      response.split(LINE_BREAK).map(e => e.split(ITEM_BREAK)).forEach((e, i) => {
-        let line: Line = {
-          word: e[0],
-          start: e[2] ? parseFloat(e[2]) : -1,
-          duration: e[3] ? parseFloat(e[3]) : -1,
-          tags:　e[1] && e[1].length > 0 ?  e[1].split(SUB_ITEM_BREAK) : []
-        };
-        this.headers.get(lesson)?.push(line)
-      });
-    });
-  }
-
-  LoadJiayis(lesson:string) {
-    let path = 'assets/' + lesson + "_jiayi.txt";
-    this.httpClient.get(path, { responseType: 'text' }).subscribe((response) => {
-      this.jiayis.set(lesson, []);
-      response.split(LINE_BREAK).map(e => e.split(ITEM_BREAK)).forEach((e, i) => {
-        let line: Line = {
-          word: e[0],
-          start: e[2] ? parseFloat(e[2]) : -1,
-          duration: e[3] ? parseFloat(e[3]) : -1,
-          tags:　e[1] && e[1].length > 0 ?  e[1].split(SUB_ITEM_BREAK) : []
-        };
-        this.jiayis.get(lesson)?.push(line)
-      });
-    });
   }
 
   LoadWords(lesson:string) {
@@ -99,22 +51,28 @@ export class TextService {
     });
   }
 
+  LoadLesson(lesson:string) {
+    let path = 'assets/' + lesson + ".txt";
+    this.httpClient.get(path, { responseType: 'text' }).subscribe((response) => {
+      this.lessons.set(lesson, []);
+      response.split(LINE_BREAK).map(e => e.split(ITEM_BREAK)).forEach((e, i) => {
+        let line: Line = {
+          word: e[0],
+          start: e[2] ? parseFloat(e[2]) : -1,
+          duration: e[3] ? parseFloat(e[3]) : -1,
+          tags:　e[1] && e[1].length > 0 ?  e[1].split(SUB_ITEM_BREAK) : []
+        };
+        this.lessons.get(lesson)?.push(line)
+      });
+    });
+  }
+
+  @computed  GetLesson(lesson: string) {
+    return this.lessons.get(lesson);
+  }
+
   @computed  GetZhuyin() {
     return this.zhuyin;
-  }
-
-  @computed GetDiaglogs(lesson:string) {
-    return this.dialogs.get(lesson);
-  }
-
-  @computed GetHeaders(lesson:string)  {
-    return this.headers.get(lesson);
-
-  }
-
-  @computed GetJiayis(lesson:string) {
-    return this.jiayis.get(lesson);
-
   }
 
   @computed GetWords(lesson:string)  {

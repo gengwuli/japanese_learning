@@ -1,7 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { SoundService } from '../sound.service';
 import { TextService } from '../text.service';
-import { ActivatedRoute } from '@angular/router';
+import {  Router, NavigationEnd } from '@angular/router';
+import { makeAutoObservable } from 'mobx';
+import {filter} from 'rxjs/operators';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -10,10 +12,18 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./lesson.component.css']
 })
 export class LessonComponent implements OnInit {
-  lesson: string = ""
+  lesson = '';
 
-  constructor(private route: ActivatedRoute, public soundService: SoundService, public textService: TextService) {
-    this.lesson = "lesson" + this.route.snapshot.paramMap.get('id');
+  constructor(private router: Router, public soundService: SoundService, public textService: TextService) {
+    makeAutoObservable(this)
+    router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(e => this.routeListener(e));
+
+  }
+  
+  private routeListener(event:any) {
+    this.lesson = "lesson" + event.urlAfterRedirects.split('/').pop();
   }
 
   ngOnInit(): void {
@@ -33,19 +43,11 @@ export class LessonComponent implements OnInit {
     this.soundService.playWord(this.lesson, when, duration)
   }
 
-  GetDialogs() {
-    return this.textService.GetDiaglogs(this.lesson);
-  }
-
   GetWords() {
     return this.textService.GetWords(this.lesson);
   }
 
-  GetHeaders() {
-    return this.textService.GetHeaders(this.lesson);
-  }
-
-  GetJiayis() {
-    return this.textService.GetJiayis(this.lesson);
+  GetLines() {
+    return this.textService.GetLesson(this.lesson);
   }
 }
