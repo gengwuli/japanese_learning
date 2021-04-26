@@ -16,12 +16,12 @@ export class RichlineComponent implements OnInit {
   }
 
   ngOnInit(): void {
-        // 日本語,本, only the shorter one is annotated.
+    // 日本語,本, only the shorter one is annotated.
     // So sort by length and pop the longer one out first.
-    this.tags!.sort((a,b)=>a.length - b.length);
+    this.tags!.sort((a, b) => a.length - b.length);
     // Have to make a copy of this.tags, otherwise it will be modified
     // inside GetElements after calling tags.pop().
-    this.segments = this.GetElements(this.line, [...this.tags!]); 
+    this.segments = this.GetElements(this.line, [...this.tags!]);
   }
 
   @computed GetElements(line?: string, tags?: Array<string>): any {
@@ -32,25 +32,27 @@ export class RichlineComponent implements OnInit {
       return [line]
     }
     let res = []
-    // Have to iterate through every tag until we found the first one that's
-    // in the line. e.g "李さんは " ["李", "社員"], here, we have to ignore
-    // "社員" and continue with "李"
-    let key = tags.pop(); 
-    // We know if the key doesn't exists in the line, there's no need to 
-    // split further. Only split if the key is in the line. Or we can 
-    // filter beforehand.
-    while (tags.length > 0 && line.indexOf(key!) == -1) {
-      key = tags.pop();
-    }
-    let translation = [key, this.textService.GetZhuyin().get(key!)];
-    // Same character might have different annotation like 母(はは)母(かあ)
-    // So allow special designation using ()
-    let index = key?.indexOf('(');
-    if (index != -1) {
-      let yin = key?.substr(index! + 1, key.length - index! - 2);
-      key = key?.substr(0, index);
-      translation = [key, yin]
-    }
+    let key = ''
+    let yin = '';
+    do {
+      // Have to iterate through every tag until we found the first one that's
+      // in the line. e.g "李さんは " ["李", "社員"], here, we have to ignore
+      // "社員" and continue with "李"
+      key = tags.pop()!;
+      // Same character might have different annotation like 母(はは)母(かあ)
+      // So allow special designation using ()
+      let index = key?.indexOf('(');
+      if (index != -1) {
+        yin = key?.substr(index! + 1, key.length - index! - 2)!;
+        key = key?.substr(0, index);
+      } else {
+        yin = this.textService.GetZhuyin().get(key!)!;
+      }
+      // We know if the key doesn't exists in the line, there's no need to 
+      // split further. Only split if the key is in the line. Or we can 
+      // filter beforehand.
+    } while (tags.length > 0 && line.indexOf(key!) == -1);
+    let translation = [key, yin];
     let sublines = line.split(key!);
     if (sublines.length == 1) {
       return line;
