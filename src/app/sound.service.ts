@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LESSONS } from './app.constants';
 import { ASSETS_PATH } from './text.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -9,16 +10,20 @@ export class SoundService {
   private context = new AudioContext;
   private buffers = new Map;
   private lessons = LESSONS;
-  constructor() {
+  constructor(public httpClient: HttpClient) {
     this.context = new AudioContext();
     this.loadSounds();
   }
 
   loadSounds() {
-    for (let lesson of this.lessons) {
-      this.loadToBuffer(ASSETS_PATH+lesson+".mp3");
-      this.loadToBuffer(ASSETS_PATH+lesson+"_voc.mp3");
-    }
+    this.httpClient.get(ASSETS_PATH + 'lessons', {responseType: 'json'}).subscribe((resp) => {
+      if (resp instanceof Array) {
+        for (let lesson of resp) {
+          this.loadToBuffer(ASSETS_PATH+lesson+".mp3");
+          this.loadToBuffer(ASSETS_PATH+lesson+"_voc.mp3");
+        }
+      }
+    });
     this.loadToBuffer(ASSETS_PATH+"pre.mp3");
   }
 

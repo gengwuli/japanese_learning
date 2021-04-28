@@ -25,10 +25,15 @@ export class TextService {
   }
 
   LoadLessons() {
-    for (const lesson of LESSONS) {
-      this.LoadWords(lesson);
-      this.LoadLesson(lesson);
-    }
+    this.httpClient.get(ASSETS_PATH + 'lessons', {responseType: 'json'}).subscribe((resp) => {
+      if (resp instanceof Array) {
+        // Use LESSONS to test locally
+        for (let lesson of resp) {
+          this.LoadWords(lesson);
+          this.LoadLesson(lesson);
+        }
+      }
+    });
   }
 
   LoadZhuyin() {
