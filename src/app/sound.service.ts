@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LESSONS } from './app.constants';
+import { ASSETS_PATH } from './text.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +16,10 @@ export class SoundService {
 
   loadSounds() {
     for (let lesson of this.lessons) {
-      this.loadToBuffer("assets/"+lesson+".mp3");
-      this.loadToBuffer("assets/"+lesson+"_voc.mp3");
+      this.loadToBuffer(ASSETS_PATH+lesson+".mp3");
+      this.loadToBuffer(ASSETS_PATH+lesson+"_voc.mp3");
     }
-    this.loadToBuffer("assets/pre.mp3");
+    this.loadToBuffer(ASSETS_PATH+"pre.mp3");
   }
 
   loadToBuffer(path: string) {
@@ -36,7 +37,7 @@ export class SoundService {
             alert('error decoding file data: ' + path);
             return;
           }
-          buffers.set(path.split('/')[1].split('.')[0], buffer)
+          buffers.set(path.split('/').pop()!.split('.')[0], buffer)
         },
         function (error) {
           console.error('decodeAudioData error', error);

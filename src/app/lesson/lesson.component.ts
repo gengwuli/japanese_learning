@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { SoundService } from '../sound.service';
-import { TextService } from '../text.service';
+import { TextService, ASSETS_PATH } from '../text.service';
 import {  Router, NavigationEnd } from '@angular/router';
 import { makeAutoObservable } from 'mobx';
 import {filter} from 'rxjs/operators';
@@ -25,7 +25,7 @@ export class LessonComponent implements OnInit {
   
   private routeListener(event:any) {
     this.lesson = "lesson" + event.urlAfterRedirects.split('/').pop();
-    this.notes_path = "assets/" + this.lesson + "_notes.md";
+    this.notes_path = ASSETS_PATH + this.lesson + "_notes.md";
   }
 
   ngOnInit(): void {

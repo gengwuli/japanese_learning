@@ -8,6 +8,8 @@ import { observable, computed } from 'mobx-angular';
 const LINE_BREAK = '\n'
 const ITEM_BREAK = '|'
 const SUB_ITEM_BREAK = ','
+// Local path is 'assets/', have to put all under assets
+export const ASSETS_PATH = 'https://gengwu.herokuapp.com/'
 
 @Injectable({
   providedIn: 'root'
@@ -30,14 +32,14 @@ export class TextService {
   }
 
   LoadZhuyin() {
-    this.httpClient.get('assets/zhuyin.txt', { responseType: 'text' }).subscribe((response) => {
+    this.httpClient.get(ASSETS_PATH+'zhuyin.txt', { responseType: 'text' }).subscribe((response) => {
       response.split(LINE_BREAK).map(e => e.split(ITEM_BREAK)).forEach((e, i) => this.zhuyin.set(e[0], e[1]));
       return this.zhuyin;
     })
   }
 
   LoadWords(lesson:string) {
-    let path = 'assets/' + lesson + "_voc.txt";
+    let path = ASSETS_PATH + lesson + "_voc.txt";
     this.httpClient.get(path, { responseType: 'text' }).subscribe((response) => {
       this.words.set(lesson, []);
       response.split(LINE_BREAK).map(e => e.split(ITEM_BREAK)).forEach((e, i) => {
@@ -52,7 +54,7 @@ export class TextService {
   }
 
   LoadLesson(lesson:string) {
-    let path = 'assets/' + lesson + ".txt";
+    let path = ASSETS_PATH + lesson + ".txt";
     this.httpClient.get(path, { responseType: 'text' }).subscribe((response) => {
       this.lessons.set(lesson, []);
       response.split(LINE_BREAK).map(e => e.split(ITEM_BREAK)).forEach((e, i) => {
