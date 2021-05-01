@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { LESSONS } from './app.constants';
 import { ASSETS_PATH } from './text.service';
 import { HttpClient } from '@angular/common/http';
 
@@ -9,22 +8,8 @@ import { HttpClient } from '@angular/common/http';
 export class SoundService {
   private context = new AudioContext;
   private buffers = new Map;
-  private lessons = LESSONS;
   constructor(public httpClient: HttpClient) {
     this.context = new AudioContext();
-    this.loadSounds();
-  }
-
-  loadSounds() {
-    this.httpClient.get(ASSETS_PATH + 'lessons', {responseType: 'json'}).subscribe((resp) => {
-      if (resp instanceof Array) {
-        for (let lesson of resp) {
-          this.loadToBuffer(ASSETS_PATH+lesson+".mp3");
-          this.loadToBuffer(ASSETS_PATH+lesson+"_voc.mp3");
-        }
-      }
-    });
-    this.loadToBuffer(ASSETS_PATH+"pre.mp3");
   }
 
   loadToBuffer(path: string) {
@@ -50,6 +35,13 @@ export class SoundService {
       );
     }
     request.send();
+  }
+
+  LoadSound(file: string) {
+    if (this.buffers.has(file)) {
+      return;
+    }
+    this.loadToBuffer(ASSETS_PATH+file+".mp3");
   }
 
   play(name: string, when?:number, duration?:number) {

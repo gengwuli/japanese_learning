@@ -9,8 +9,8 @@ const LINE_BREAK = '\n'
 const ITEM_BREAK = '|'
 const SUB_ITEM_BREAK = ','
 // Local path is 'assets/', have to put all under assets
-export const ASSETS_PATH = 'https://gengwu.herokuapp.com/'
-// export const ASSETS_PATH = 'http://localhost:3000/'
+// export const ASSETS_PATH = 'https://gengwu.herokuapp.com/'
+export const ASSETS_PATH = 'http://localhost:3000/'
 
 @Injectable({
   providedIn: 'root'
@@ -19,22 +19,8 @@ export class TextService {
   @observable zhuyin:Map<string, string> = new Map<string, string>();
   @observable words = new Map<string, Array<Word>>();
   @observable lessons = new Map<string, Array<Line>>();
-
   constructor(public httpClient: HttpClient) {
     this.LoadZhuyin();
-    this.LoadLessons();
-  }
-
-  LoadLessons() {
-    this.httpClient.get(ASSETS_PATH + 'lessons', {responseType: 'json'}).subscribe((resp) => {
-      if (resp instanceof Array) {
-        // Use LESSONS to test locally
-        for (let lesson of resp) {
-          this.LoadWords(lesson);
-          this.LoadLesson(lesson);
-        }
-      }
-    });
   }
 
   LoadZhuyin() {
@@ -45,6 +31,9 @@ export class TextService {
   }
 
   LoadWords(lesson:string) {
+    if (this.words.has(lesson)) {
+      return;
+    }
     let path = ASSETS_PATH + lesson + "_voc.txt";
     this.httpClient.get(path, { responseType: 'text' }).subscribe((response) => {
       this.words.set(lesson, []);
@@ -60,6 +49,9 @@ export class TextService {
   }
 
   LoadLesson(lesson:string) {
+    if (this.lessons.has(lesson)) {
+      return;
+    }
     let path = ASSETS_PATH + lesson + ".txt";
     this.httpClient.get(path, { responseType: 'text' }).subscribe((response) => {
       this.lessons.set(lesson, []);
@@ -75,17 +67,16 @@ export class TextService {
     });
   }
 
-  @computed  GetLesson(lesson: string) {
-    return this.lessons.get(lesson);
-  }
-
-
-  @computed  GetLessons() {
-    return this.lessons.keys();
+  GetLessonList() {
+    return this.httpClient.get(ASSETS_PATH + 'lessons', {responseType: 'json'})
   }
 
   @computed  GetZhuyin() {
     return this.zhuyin;
+  }
+
+  @computed  GetLesson(lesson: string) {
+    return this.lessons.get(lesson);
   }
 
   @computed GetWords(lesson:string)  {

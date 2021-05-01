@@ -129,7 +129,7 @@ export class Yin50Component implements OnInit {
   constructor( public soundService: SoundService) {}
 
   ngOnInit(): void {
-
+    this.soundService.LoadSound('pre')
   }
 
   playYin(yin: any) {

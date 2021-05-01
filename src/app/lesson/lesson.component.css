@@ -7,4 +7,8 @@ div{
     flex-wrap: wrap;
     word-wrap: break-word;
   }
+  ::ng-deep .mat-tab-body-wrapper {
+    height: 75vh;
+}
+  
     
