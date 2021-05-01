@@ -2,15 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Line } from './line';
 import { Word } from './word';
-import { LESSONS } from './app.constants';
 import { observable, computed } from 'mobx-angular';
 
 const LINE_BREAK = '\n'
 const ITEM_BREAK = '|'
 const SUB_ITEM_BREAK = ','
 // Local path is 'assets/', have to put all under assets
-// export const ASSETS_PATH = 'https://gengwu.herokuapp.com/'
-export const ASSETS_PATH = 'http://localhost:3000/'
+export const ASSETS_PATH = 'https://gengwu.herokuapp.com/'
+// export const ASSETS_PATH = 'http://localhost:3000/'
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +18,7 @@ export class TextService {
   @observable zhuyin:Map<string, string> = new Map<string, string>();
   @observable words = new Map<string, Array<Word>>();
   @observable lessons = new Map<string, Array<Line>>();
+
   constructor(public httpClient: HttpClient) {
     this.LoadZhuyin();
   }
