@@ -10,6 +10,7 @@ const ITEM_BREAK = '|'
 const SUB_ITEM_BREAK = ','
 // Local path is 'assets/', have to put all under assets
 export const ASSETS_PATH = 'https://gengwu.herokuapp.com/'
+// export const ASSETS_PATH = 'http://localhost:3000/'
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +77,11 @@ export class TextService {
 
   @computed  GetLesson(lesson: string) {
     return this.lessons.get(lesson);
+  }
+
+
+  @computed  GetLessons() {
+    return this.lessons.keys();
   }
 
   @computed  GetZhuyin() {

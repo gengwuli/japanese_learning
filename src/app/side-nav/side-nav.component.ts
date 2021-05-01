@@ -1,5 +1,7 @@
 import {MediaMatcher} from '@angular/cdk/layout';
 import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
+import { TextService } from '../text.service';
+import { makeAutoObservable } from 'mobx';
 
 /** @title Responsive sidenav */
 @Component({
@@ -9,15 +11,21 @@ import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
 })
 export class SideNavComponent {
   mobileQuery: MediaQueryList;
-
-  fillerNav = ['yin50', 'lesson01','lesson02','vocabulary'];
-
   private _mobileQueryListener: () => void;
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, public textService: TextService) {
+    makeAutoObservable(this)
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
+  }
+
+  GetItemList() {
+    let res =  ['yin50', 'vocabulary']
+    for (let lesson of this.textService.GetLessons()) {
+      res.push(lesson);
+    }
+    return res;
   }
 
   ngOnDestroy(): void {
