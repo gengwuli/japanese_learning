@@ -1,0 +1,15 @@
+<!-- https://music.163.com/#/song?id=417243273 -->
+<!-- https://docs.google.com/spreadsheets/d/1ljvbuFPArZNDSTKrrgdugsuCU-2ia5q0XhaqULJojPk/edit#gid=0 -->
+<!-- https://online-audio-converter.com/cn/ -->
+<select id="select-1">
+    <option *ngFor="let song of songList" [value]="song">{{song}}</option>
+</select>
+<div>
+    <audio id="audio-1" controls="">
+        <source [src]="asset_path + this.song + '.ogg'" type="audio/ogg">
+    </audio>
+</div>
+<div *ngFor="let line of active_lines; let i =index">
+    <app-richline [line]="line.word" [tags]="line.tags" *ngIf="isActive(i)" class="active_lines"></app-richline>
+    <app-richline [line]="line.word" [tags]="line.tags" *ngIf="isGrey(i)"></app-richline>
+</div>

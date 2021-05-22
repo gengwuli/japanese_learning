@@ -12,7 +12,7 @@ import { makeAutoObservable } from 'mobx';
 export class SideNavComponent {
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
-  lessonList: Array<string> = ['yin50', 'vocabulary'];
+  lessonList: Array<string> = ['yin50', 'vocabulary', 'lyric'];
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, public textService: TextService) {
     makeAutoObservable(this)

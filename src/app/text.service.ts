@@ -18,6 +18,7 @@ export class TextService {
   @observable zhuyin:Map<string, string> = new Map<string, string>();
   @observable words = new Map<string, Array<Word>>();
   @observable lessons = new Map<string, Array<Line>>();
+  @observable songs = new Map<string, Array<Line>>();
 
   constructor(public httpClient: HttpClient) {
     this.LoadZhuyin();
@@ -67,8 +68,33 @@ export class TextService {
     });
   }
 
+  LoadLyric(song:string, call_back:Function) {
+    if (this.songs.has(song)) {
+      call_back();
+      return;
+    }
+    let path = ASSETS_PATH + song + ".lyrics";
+    this.httpClient.get(path, { responseType: 'text' }).subscribe((response) => {
+      this.songs.set(song, []);
+      response.split(LINE_BREAK).map(e => e.split(ITEM_BREAK)).forEach((e, i) => {
+        let line: Line = {
+          word: e[0],
+          start: e[2] ? parseFloat(e[2]) : -1,
+          duration: e[3] ? parseFloat(e[3]) : -1,
+          tags:　e[1] && e[1].length > 0 ?  e[1].split(SUB_ITEM_BREAK) : []
+        };
+        this.songs.get(song)?.push(line)
+        call_back()
+      });
+    });
+  }
+
   GetLessonList() {
     return this.httpClient.get(ASSETS_PATH + 'lessons', {responseType: 'json'})
+  }
+
+  GetSongList() {
+    return this.httpClient.get(ASSETS_PATH + 'songs', {responseType: 'json'})
   }
 
   @computed  GetZhuyin() {
@@ -82,4 +108,8 @@ export class TextService {
   @computed GetWords(lesson:string)  {
    return this.words.get(lesson);
   }
+
+  @computed GetLyric(song:string)  {
+    return this.songs.get(song);
+   }
 }

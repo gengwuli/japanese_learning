@@ -23,6 +23,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { LessonComponent } from './lesson/lesson.component';
 import { MobxAngularModule } from 'mobx-angular';
 import { MarkdownModule } from 'ngx-markdown';
+import { LyricComponent } from './lyric/lyric.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { MarkdownModule } from 'ngx-markdown';
     SideNavComponent,
     VocabularyComponent,
     RichlineComponent,
-    LessonComponent
+    LessonComponent,
+    LyricComponent
   ],
   imports: [
     BrowserModule,
