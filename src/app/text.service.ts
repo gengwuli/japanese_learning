@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Line } from './line';
 import { Word } from './word';
-import { observable, computed } from 'mobx-angular';
 
 const LINE_BREAK = '\n'
 const ITEM_BREAK = '|'
@@ -15,10 +14,10 @@ export const ASSETS_PATH = 'https://gengwu.herokuapp.com/'
   providedIn: 'root'
 })
 export class TextService {
-  @observable zhuyin:Map<string, string> = new Map<string, string>();
-  @observable words = new Map<string, Array<Word>>();
-  @observable lessons = new Map<string, Array<Line>>();
-  @observable songs = new Map<string, Array<Line>>();
+  zhuyin:Map<string, string> = new Map<string, string>();
+  words = new Map<string, Array<Word>>();
+  lessons = new Map<string, Array<Line>>();
+  songs = new Map<string, Array<Line>>();
 
   constructor(public httpClient: HttpClient) {
     this.LoadZhuyin();
@@ -97,19 +96,19 @@ export class TextService {
     return this.httpClient.get(ASSETS_PATH + 'songs', {responseType: 'json'})
   }
 
-  @computed  GetZhuyin() {
+    GetZhuyin() {
     return this.zhuyin;
   }
 
-  @computed  GetLesson(lesson: string) {
+    GetLesson(lesson: string) {
     return this.lessons.get(lesson);
   }
 
-  @computed GetWords(lesson:string)  {
+   GetWords(lesson:string)  {
    return this.words.get(lesson);
   }
 
-  @computed GetLyric(song:string)  {
+   GetLyric(song:string)  {
     return this.songs.get(song);
    }
 }
