@@ -9,8 +9,8 @@ const LINE_BREAK = '\n'
 const ITEM_BREAK = '|'
 const SUB_ITEM_BREAK = ','
 // Local path is 'assets/', have to put all under assets
-// export const ASSETS_PATH = 'https://gengwu.herokuapp.com/'
-export const ASSETS_PATH = 'http://localhost:3000/'
+export const ASSETS_PATH = 'https://gengwu.herokuapp.com/'
+// export const ASSETS_PATH = 'http://localhost:3000/'
 
 @Injectable({
   providedIn: 'root'
