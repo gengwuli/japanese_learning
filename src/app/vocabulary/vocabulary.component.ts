@@ -1,13 +1,11 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { TextService } from '../text.service';
 
-export interface UserData {
-  id: string;
-  name: string;
-  progress: string;
-  color: string;
+export interface WordData {
+  word: string;
 }
 
 @Component({
@@ -15,22 +13,30 @@ export interface UserData {
   templateUrl: './vocabulary.component.html',
   styleUrls: ['./vocabulary.component.css']
 })
-export class VocabularyComponent  implements AfterViewInit {
-  displayedColumns: string[] = ['id', 'name', 'progress', 'color'];
-  dataSource: MatTableDataSource<UserData>;
+export class VocabularyComponent implements AfterViewInit {
+  displayedColumns: string[] = ['word'];
+  dataSource: MatTableDataSource<WordData> =new MatTableDataSource<WordData>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor() {
-    const users = Array.from({length: 5}, (_, k) => createNewUser());
+  constructor(public textService: TextService) {
 
-    this.dataSource = new MatTableDataSource(users);
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    console.log(this.dataSource.data.length)
+    this.textService.GetAllWords().subscribe((resp) => {
+      if (resp instanceof Array) {
+        let words: Array<WordData> = []
+        for (let word of resp) {
+          words.push({word: word});
+        }
+        this.dataSource.data = words;
+      }
+    });
   }
 
   applyFilter(event: Event) {
@@ -41,14 +47,4 @@ export class VocabularyComponent  implements AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
-}
-
-/** Builds and returns a new User. */
-function createNewUser(): UserData {
-  return {
-    id: "1",
-    name: "name",
-    progress: "on",
-    color: "red"
-  };
 }
