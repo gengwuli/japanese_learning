@@ -15,7 +15,7 @@ export interface WordData {
 })
 export class VocabularyComponent implements AfterViewInit {
   displayedColumns: string[] = ['word'];
-  dataSource: MatTableDataSource<WordData> =new MatTableDataSource<WordData>();
+  dataSource: MatTableDataSource<WordData> = new MatTableDataSource<WordData>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -32,7 +32,12 @@ export class VocabularyComponent implements AfterViewInit {
       if (resp instanceof Array) {
         let words: Array<WordData> = []
         for (let word of resp) {
-          words.push({word: word});
+          words.push({ word: word });
+        }
+        // Shuffle words
+        for (let i = words.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [words[i], words[j]] = [words[j], words[i]];
         }
         this.dataSource.data = words;
       }
